@@ -27,16 +27,9 @@ function generateHTML (data){
 
 function generateModal(data) {
     let modalHtmlArray = [];
-    let htmlBody = document.getElementsByTagName('body');
-    let modalDiv = document.createElement('div');
-    let scriptTag = document.getElementsByTagName('script')
-    console.log(modalDiv);
-
-    modalDiv.className = 'modalDiv';
-
-    htmlBody[0].insertBefore(modalDiv, scriptTag[0]);
+    
     data.forEach(element => {
-        let modalHTML = `<div class="modal-container">
+        let modalHTML = `
         <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
             <div class="modal-info-container">
@@ -53,25 +46,50 @@ function generateModal(data) {
 
         modalHtmlArray.push(modalHTML);
     })
-    //console.log(modalHtmlArray[0]);
+    
+
+   return modalHtmlArray
+}
+
+function addHTML(data){
+    const gallery = document.getElementById('gallery');
+    let modalDiv = document.createElement('div');
+    
     for (var i = 0, len = gallery.children.length; i < len; i++)
     {
     
         (function(index){
             gallery.children[i].onclick = function(){
-                  console.log(modalHtmlArray[index] ) ;
+                modalDiv.className = "modal-container";
+                modalDiv.innerHTML = data[index];
+                gallery.append(modalDiv);
                   
-                  modalDiv.innerHTML = modalHtmlArray[index];
             }    
         })(i);
     
     }
+    return modalDiv
+   
+}
+
+
+function closeModal(data){
+    console.log(data);
+    
+    
+    closeButton.addEventListener('click', () => {
+        
+        data.style.display = 'none';
+    }
+    )
 }
 
 
 fetchData('https://randomuser.me/api/?results=12')
     .then(data => data.results)
     .then(generateHTML)
-    .then(generateModal);
+    .then(generateModal)
+    .then(addHTML)
+    .then(closeModal);
 
     
