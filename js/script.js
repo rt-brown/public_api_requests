@@ -52,7 +52,7 @@ function generateModal(data) {
 }
 
 function addHTML(data){
-    const gallery = document.getElementById('gallery');
+    
     let modalDiv = document.createElement('div');
     
     for (var i = 0, len = gallery.children.length; i < len; i++)
@@ -61,14 +61,15 @@ function addHTML(data){
         (function(index){
             gallery.children[i].onclick = function(){
                 modalDiv.className = "modal-container";
+                dataIndex = data[index]
                 modalDiv.innerHTML = data[index];
                 gallery.append(modalDiv);
-                  
+                
             }    
         })(i);
     
     }
-    return modalDiv
+    return gallery.children;
    
 }
 
@@ -77,11 +78,11 @@ function closeModal(data){
     console.log(data);
     
     
-    closeButton.addEventListener('click', () => {
+    /*closeButton.addEventListener('click', () => {
         
         data.style.display = 'none';
     }
-    )
+    )*/
 }
 
 
