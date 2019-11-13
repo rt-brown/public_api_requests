@@ -87,8 +87,8 @@ function closeModal(data){
      
     
     closeButton.addEventListener('click', () => {
-        
-        data.style.display = 'none';
+        const closeModalDiv = body.children[2];
+        closeModalDiv.style.display = 'none';
     }
     )
 }
