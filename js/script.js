@@ -1,3 +1,7 @@
+const gallery = document.getElementById('gallery');
+const body = document.querySelector('body');
+const script = document.querySelector('script');
+const closeButton = document.querySelector('.close-modal-btn');
 
 function fetchData(url){
     return fetch(url)
@@ -5,7 +9,12 @@ function fetchData(url){
 }
 
 function generateHTML (data){
-    const gallery = document.getElementById('gallery');
+    
+    const modalDiv = document.createElement('div');
+   
+   
+    body.insertBefore(modalDiv, script);
+
     data.forEach(element => {
 
         let HTML = `<div class="card">
@@ -53,7 +62,7 @@ function generateModal(data) {
 
 function addHTML(data){
     
-    let modalDiv = document.createElement('div');
+    const modalDiv = body.children[2];
     
     for (var i = 0, len = gallery.children.length; i < len; i++)
     {
@@ -63,7 +72,7 @@ function addHTML(data){
                 modalDiv.className = "modal-container";
                 dataIndex = data[index]
                 modalDiv.innerHTML = data[index];
-                gallery.append(modalDiv);
+                
                 
             }    
         })(i);
@@ -75,14 +84,13 @@ function addHTML(data){
 
 
 function closeModal(data){
-    console.log(data);
+     
     
-    
-    /*closeButton.addEventListener('click', () => {
+    closeButton.addEventListener('click', () => {
         
         data.style.display = 'none';
     }
-    )*/
+    )
 }
 
 
