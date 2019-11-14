@@ -1,7 +1,7 @@
 const gallery = document.getElementById('gallery');
 const body = document.querySelector('body');
 const script = document.querySelector('script');
-const closeButton = document.querySelector('.close-modal-btn');
+
 
 function fetchData(url){
     return fetch(url)
@@ -11,13 +11,11 @@ function fetchData(url){
 function generateHTML (data){
     
     const modalDiv = document.createElement('div');
-   
-   
     body.insertBefore(modalDiv, script);
 
     data.forEach(element => {
 
-        let HTML = `<div class="card">
+        let galleryHTML = `<div class="card">
         <div class="card-img-container">
             <img class="card-img" src=${element.picture.thumbnail} alt="profile picture">
         </div>
@@ -28,17 +26,35 @@ function generateHTML (data){
         </div>
     </div>`
 
-    gallery.innerHTML += HTML;
+    gallery.innerHTML += galleryHTML;
         
     });
+
+    let modalHTML = `
+        <div class="modal">
+            <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
+            <div class="modal-info-container">
+                <img class="modal-img" alt="profile picture">
+                <h3 id="name" class="modal-name cap"></h3>
+                <p class="modal-text"></p>
+                <p class="modal-text cap"></p>
+                <hr>
+                <p class="modal-text"></p>
+                <p class="modal-text"></p>
+                <p class="modal-text">Birthday: </p>
+            </div>
+        </div>`
+
+    modalDiv.innerHTML = modalHTML;
+    modalDiv.style.display = 'none'
    return data
 }
 
-function generateModal(data) {
+function addData(data) {
     let modalHtmlArray = [];
     
     data.forEach(element => {
-        let modalHTML = `
+        let modalData = `
         <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
             <div class="modal-info-container">
@@ -53,7 +69,7 @@ function generateModal(data) {
             </div>
         </div>`
 
-        modalHtmlArray.push(modalHTML);
+        modalHtmlArray.push(modalData);
     })
     
 
@@ -69,8 +85,8 @@ function addHTML(data){
     
         (function(index){
             gallery.children[i].onclick = function(){
+                modalDiv.style.display = 'inherit';
                 modalDiv.className = "modal-container";
-                dataIndex = data[index]
                 modalDiv.innerHTML = data[index];
                 
                 
@@ -78,27 +94,27 @@ function addHTML(data){
         })(i);
     
     }
-    return gallery.children;
+    return modalDiv;
    
 }
 
 
 function closeModal(data){
-     
     
-    closeButton.addEventListener('click', () => {
-        const closeModalDiv = body.children[2];
-        closeModalDiv.style.display = 'none';
+    const closeButton = document.querySelector('.modal-close-btn');
+    closeButton.addEventListener('click', (data) => {
+        console.log('clicked');
+        data.style.display = 'none';
     }
     )
-}
+};
 
 
 fetchData('https://randomuser.me/api/?results=12')
     .then(data => data.results)
     .then(generateHTML)
-    .then(generateModal)
+    .then(addData)
     .then(addHTML)
-    .then(closeModal);
+    .then(closeModal)
 
     
