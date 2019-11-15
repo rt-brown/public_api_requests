@@ -9,7 +9,7 @@ function fetchData(url){
 }
 
 function generateHTML (data){
-    
+    console.log(data);
     const modalDiv = document.createElement('div');
     body.insertBefore(modalDiv, script);
 
@@ -88,7 +88,7 @@ function addHTML(data){
                 modalDiv.style.display = 'inherit';
                 modalDiv.className = "modal-container";
                 modalDiv.innerHTML = data[index];
-                
+                closeModal()
                 
             }    
         })(i);
@@ -99,12 +99,12 @@ function addHTML(data){
 }
 
 
-function closeModal(data){
+function closeModal(){
     
     const closeButton = document.querySelector('.modal-close-btn');
     closeButton.addEventListener('click', (data) => {
-        console.log('clicked');
-        data.style.display = 'none';
+        
+        body.children[2].style.display = 'none';
     }
     )
 };
@@ -115,6 +115,6 @@ fetchData('https://randomuser.me/api/?results=12')
     .then(generateHTML)
     .then(addData)
     .then(addHTML)
-    .then(closeModal)
+    //.then(closeModal)
 
     
