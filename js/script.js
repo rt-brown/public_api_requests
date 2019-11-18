@@ -1,8 +1,20 @@
+fetchData('https://randomuser.me/api/?results=12')
+    .then(data => data.results)
+    .then(generateHTML)
+    .then(addData)
+    .then(addHTML)
+
+
+/*
+    global variables
+*/
 const gallery = document.getElementById('gallery');
 const body = document.querySelector('body');
 const script = document.querySelector('script');
 
-
+/*
+    function to fetch data and update dom with thrown error
+*/
 function fetchData(url){
     try {
         return fetch(url)
@@ -13,6 +25,10 @@ function fetchData(url){
     }
     
 }
+
+/*
+    function to update the HTML once data is received. Also adds hidden HTML for modals. returns JSON data
+*/
 
 function generateHTML (data){
     const modalDiv = document.createElement('div');
@@ -55,6 +71,10 @@ function generateHTML (data){
    return data
 }
 
+/*
+    function to add json data for modal html to an arry to later call onclick on the specific card. returns the array of modalHTML
+*/
+
 function addData(data) {
     let modalHtmlArray = [];
     
@@ -86,6 +106,10 @@ function addData(data) {
    return modalHtmlArray
 }
 
+/*
+    function to add modal HTML on click event. loops through gallery children to add event listener and populate HTML 
+*/
+
 function addHTML(data){
     
     const modalDiv = body.children[2];
@@ -93,22 +117,24 @@ function addHTML(data){
     for (var i = 0, len = gallery.children.length; i < len; i++)
     {
     
-        (function(index){
+        (function(i){
             gallery.children[i].onclick = function(){
                 modalDiv.style.display = 'inherit';
                 modalDiv.className = "modal-container";
-                modalDiv.innerHTML = data[index];
+                modalDiv.innerHTML = data[i];
                 closeModal()
                 
             }    
         })(i);
     
     }
-    return modalDiv;
+    
    
 }
 
-
+/*
+    helper function added to modal to close it when 'x' is clicked
+*/
 function closeModal(){
     
     const closeButton = document.querySelector('.modal-close-btn');
@@ -120,11 +146,7 @@ function closeModal(){
 };
 
 
-fetchData('https://randomuser.me/api/?results=12')
-    .then(data => data.results)
-    .then(generateHTML)
-    .then(addData)
-    .then(addHTML)
-    //.then(closeModal)
+
+    
 
     
