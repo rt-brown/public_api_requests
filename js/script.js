@@ -4,17 +4,22 @@ const script = document.querySelector('script');
 
 
 function fetchData(url){
-    return fetch(url)
-    .then(response => response.json())
+    try {
+        return fetch(url)
+        .then(response => response.json())
+    } catch (error) {
+        const pageHeader = document.getElementsByClassName('header-text-container');
+        pageHeader[0].children[0].textContent = error.message;
+    }
+    
 }
 
 function generateHTML (data){
-    console.log(data);
     const modalDiv = document.createElement('div');
     body.insertBefore(modalDiv, script);
 
     data.forEach(element => {
-
+        
         let galleryHTML = `<div class="card">
         <div class="card-img-container">
             <img class="card-img" src=${element.picture.thumbnail} alt="profile picture">
@@ -27,7 +32,7 @@ function generateHTML (data){
     </div>`
 
     gallery.innerHTML += galleryHTML;
-        
+    
     });
 
     let modalHTML = `
@@ -54,6 +59,11 @@ function addData(data) {
     let modalHtmlArray = [];
     
     data.forEach(element => {
+        let dobYear = element.dob.date.slice(0, 4);
+        let dobMonth = element.dob.date.slice(5,7);
+        let dobDay = element.dob.date.slice(8, 10);
+        let formattedDob = `${dobMonth}-${dobDay}-${dobYear}`
+        
         let modalData = `
         <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
@@ -65,7 +75,7 @@ function addData(data) {
                 <hr>
                 <p class="modal-text">${element.cell}</p>
                 <p class="modal-text">${element.location.street.number} ${element.location.street.name} ${element.location.city}, ${element.location.state} ${element.location.postcode}</p>
-                <p class="modal-text">Birthday: ${element.dob.date}</p>
+                <p class="modal-text">Birthday: ${formattedDob}</p>
             </div>
         </div>`
 
