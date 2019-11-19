@@ -1,5 +1,5 @@
 
-    fetchData('https://randomuser.me/apei/?results=12')
+    fetchData('https://randomuser.me/api/?results=12')
     .then(data => data.results)
     .then(generateHTML)
     .then(addData)
@@ -19,16 +19,13 @@ function fetchData(url){
         return fetch(url)
         .then(checkStatus)
         .then(response => response.json())
-        .catch((response) => {console.log(response)
+        .catch((response) => {
             const pageHeader = document.getElementsByClassName('header-text-container');
             pageHeader[0].children[0].textContent = response;
             pageHeader[0].children[0].style.color = 'red';
 
         })
     }
-
-    
-
 
 /*
     function to update the HTML once data is received. Also adds hidden HTML for modals. returns JSON data
@@ -149,11 +146,14 @@ function closeModal(){
     )
 };
 
+/* 
+function to handle HTTP errors
+*/
+
 function checkStatus(response){
     if (response.ok) {
         return Promise.resolve(response)
     } else {
-        console.log(response);
         return Promise.reject(new Error(`${response.status} -- ${response.statusText}`))
     }
 }
