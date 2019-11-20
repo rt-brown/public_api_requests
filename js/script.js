@@ -1,5 +1,5 @@
 
-    fetchData('https://randomuser.me/api/?results=12')
+    fetchData('https://randomuser.me/api/?results=12&nat=us')
     .then(data => data.results)
     .then(generateHTML)
     .then(addData)
@@ -37,7 +37,7 @@ function generateHTML (data){
 
     data.forEach(element => {
         
-        let galleryHTML = `<div class="card">
+        const galleryHTML = `<div class="card">
         <div class="card-img-container">
             <img class="card-img" src=${element.picture.thumbnail} alt="profile picture">
         </div>
@@ -52,7 +52,7 @@ function generateHTML (data){
     
     });
 
-    let modalHTML = `
+    const modalHTML = `
         <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
             <div class="modal-info-container">
@@ -80,12 +80,12 @@ function addData(data) {
     let modalHtmlArray = [];
     
     data.forEach(element => {
-        let dobYear = element.dob.date.slice(0, 4);
-        let dobMonth = element.dob.date.slice(5,7);
-        let dobDay = element.dob.date.slice(8, 10);
-        let formattedDob = `${dobMonth}-${dobDay}-${dobYear}`
+        const dobYear = element.dob.date.slice(0, 4);
+        const dobMonth = element.dob.date.slice(5,7);
+        const dobDay = element.dob.date.slice(8, 10);
+        const formattedDob = `${dobMonth}-${dobDay}-${dobYear}`
         
-        let modalData = `
+        const modalData = `
         <div class="modal">
             <button type="button" id="modal-close-btn" class="modal-close-btn"><strong>X</strong></button>
             <div class="modal-info-container">
